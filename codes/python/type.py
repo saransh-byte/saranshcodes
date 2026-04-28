@@ -1,0 +1,10 @@
+name='saransh'
+id=97240197
+fees=69000.78
+bolean=False
+a=None
+print(type(name))
+print(type(id))
+print(type(fees))
+print(type(bolean))
+print(type(a))

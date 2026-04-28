@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spin the Wheel – Hard Dare Challenge</title>
+  <style>
+    body {
+      background: radial-gradient(circle, #0f0f0f, #1a1a1a);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    .wheel {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 8px solid #ff0066;
+      overflow: hidden;
+      transition: transform 5s cubic-bezier(0.1, 0.7, 0.1, 1);
+    }
+
+    .wheel div {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: #ff3399;
+      transform-origin: 100% 100%;
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    #spinBtn {
+      margin-top: 30px;
+      background: #ff0066;
+      border: none;
+      padding: 10px 25px;
+      font-size: 18px;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff0066;
+    }
+
+    #spinBtn:hover {
+      background: #ff3399;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      color: #ff66b2;
+      text-shadow: 0 0 5px #ff0066;
+    }
+
+    .pointer {
+      position: absolute;
+      top: calc(50% - 150px);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 30px solid #ff0066;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎡 Spin the Wheel – Hard Dare Challenge</h1>
+  <div class="pointer"></div>
+  <div class="wheel" id="wheel"></div>
+  <button id="spinBtn">SPIN</button>
+  <div id="result"></div>
+
+  <script>
+    const dares = [
+      "Do 30 push-ups without stopping 💪",
+      "Call your crush and say you like them 😳",
+      "Eat a spoon of chili sauce 🌶️",
+      "Dance like crazy for 1 minute 💃",
+      "Let someone go through your gallery for 15 seconds 📱",
+      "Post a funny selfie on your social media 🤳",
+      "Do a wall sit for 2 minutes 🧱",
+      "Talk in a funny accent for 5 minutes 🎭",
+      "Pretend to cry for 1 minute 😂",
+      "Say the alphabet backward fast 🔤",
+      "Hold a plank for 1 minute 🏋️",
+      "Sing your favorite song loudly 🎤"
+    ];
+
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+
+    // Create wheel sections
+    const numSections = dares.length;
+    const degPerSection = 360 / numSections;
+    dares.forEach((dare, i) => {
+      const segment = document.createElement("div");
+      segment.textContent = dare;
+      segment.style.transform = `rotate(${i * degPerSection}deg) skewY(${90 - degPerSection}deg)`;
+      segment.style.background = i % 2 === 0 ? "#ff0066" : "#ff3399";
+      wheel.appendChild(segment);
+    });
+
+    let rotation = 0;
+    spinBtn.addEventListener("click", () => {
+      const spinDeg = Math.floor(3600 + Math.random() * 360);
+      rotation += spinDeg;
+      wheel.style.transform = `rotate(${rotation}deg)`;
+
+      result.textContent = "Spinning... 🎯";
+      spinBtn.disabled = true;
+
+      setTimeout(() => {
+        const actualDeg = rotation % 360;
+        const index = Math.floor(numSections - actualDeg / degPerSection) % numSections;
+        result.textContent = `👉 Your dare: ${dares[index]}`;
+        spinBtn.disabled = false;
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
